@@ -1,0 +1,156 @@
+1. Importação das Bibliotecas
+python
+Copiar
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn3
+Explicação:
+
+pandas: Essa biblioteca é utilizada para manipulação de dados em formato de tabelas (DataFrames). Ela é muito útil para trabalhar com conjuntos de dados estruturados, como a tabela que temos.
+
+matplotlib.pyplot: É a biblioteca usada para gerar gráficos, como o diagrama de Venn no final.
+
+matplotlib_venn: Essa biblioteca é uma extensão da matplotlib que permite criar diagramas de Venn para visualização de intersecções entre conjuntos.
+
+2. Criação da Tabela de Dados
+python
+Copiar
+dados = {
+    'Estado': ['São Paulo', 'Minas Gerais', 'Rio de Janeiro', 'Rio Grande do Sul', 
+               'Paraná', 'Santa Catarina', 'Bahia', 'Pernambuco', 'Ceará', 'Amazonas'],
+    'Automobilística': ['Sim', 'Sim', 'Não', 'Sim', 'Sim', 'Não', 'Sim', 'Sim', 'Não', 'Não'],
+    'Têxtil': ['Sim', 'Sim', 'Sim', 'Sim', 'Sim', 'Sim', 'Sim', 'Sim', 'Sim', 'Sim'],
+    'Petroquímica': ['Sim', 'Não', 'Sim', 'Sim', 'Não', 'Não', 'Sim', 'Não', 'Não', 'Sim']
+}
+Explicação:
+
+Dicionário dados: Estamos criando uma tabela de dados em formato de dicionário. Cada chave ('Estado', 'Automobilística', etc.) representa uma coluna da tabela, e os valores são as linhas dessa tabela.
+
+Por exemplo, a coluna 'Automobilística' tem os valores 'Sim' e 'Não', indicando se o estado possui ou não indústria automobilística.
+
+3. Conversão para um DataFrame
+python
+Copiar
+df = pd.DataFrame(dados)
+Explicação:
+
+A função pd.DataFrame(dados) converte o dicionário de dados em uma tabela estruturada (DataFrame). Isso facilita a manipulação dos dados e permite que possamos aplicar operações de conjuntos diretamente.
+
+4. Definição dos Conjuntos A, B e C
+python
+Copiar
+A = set(df[df['Automobilística'] == 'Sim']['Estado'])
+B = set(df[df['Têxtil'] == 'Sim']['Estado'])
+C = set(df[df['Petroquímica'] == 'Sim']['Estado'])
+Explicação:
+
+Definição do Conjunto A: Aqui estamos criando o conjunto A, que contém todos os estados que possuem a indústria Automobilística. Para isso, filtramos a tabela (df[df['Automobilística'] == 'Sim']) para pegar apenas os estados onde a coluna 'Automobilística' tem valor 'Sim'. Depois, usamos ['Estado'] para pegar apenas os nomes dos estados e convertê-los para um conjunto (set).
+
+O mesmo processo é repetido para os conjuntos B (Têxtil) e C (Petroquímica).
+
+5. Impressão dos Conjuntos
+python
+Copiar
+print("Conjunto A (Automobilística):", A)
+print("Conjunto B (Têxtil):", B)
+print("Conjunto C (Petroquímica):", C)
+Explicação:
+
+Estamos apenas imprimindo os três conjuntos (A, B e C) para ver quais estados fazem parte de cada conjunto.
+
+6. Operações com Conjuntos
+Agora, vamos realizar algumas operações com esses conjuntos.
+
+União de A, B e C:
+python
+Copiar
+uniao_ABC = A.union(B).union(C)
+Explicação:
+
+A união de conjuntos representa todos os elementos que estão em qualquer um dos conjuntos. O método .union() retorna um novo conjunto contendo todos os elementos de A, B e C, sem duplicatas.
+
+Interseção de A e B:
+python
+Copiar
+intersecao_AB = A.intersection(B)
+Explicação:
+
+A interseção de conjuntos representa os elementos que estão em ambos os conjuntos. O método .intersection() retorna um novo conjunto com os estados que estão tanto no conjunto A quanto no B.
+
+Diferença entre A e C:
+python
+Copiar
+diferenca_AC = A.difference(C)
+Explicação:
+
+A diferença de conjuntos representa os elementos que estão em um conjunto, mas não estão no outro. O método .difference() retorna os estados que estão no conjunto A, mas não no conjunto C.
+
+7. Impressão dos Resultados das Operações
+python
+Copiar
+print("União de A, B e C:", uniao_ABC)
+print("Interseção de A e B:", intersecao_AB)
+print("Diferença entre A e C:", diferenca_AC)
+Explicação:
+
+Estamos imprimindo os resultados das operações de união, interseção e diferença para que você possa verificar quais estados são retornados em cada caso.
+
+8. Complementar, Subconjuntos e Relação de Pertinência
+Complementar de A:
+python
+Copiar
+complementar_A = todos_estados.difference(A)
+Explicação:
+
+O complementar de A é o conjunto de estados que não estão em A. Para isso, usamos o conjunto todos_estados, que contém todos os estados, e subtraímos os estados de A.
+
+Verificação de Subconjunto:
+python
+Copiar
+subconjunto_AB = B.issubset(A)
+Explicação:
+
+A operação de subconjunto verifica se todos os elementos de B estão também em A. O método .issubset() retorna True se B for subconjunto de A, ou False caso contrário.
+
+Relação de Pertinência:
+python
+Copiar
+pertinencia_sao_paulo = "São Paulo" in A
+Explicação:
+
+Aqui, estamos verificando se o estado de São Paulo pertence ao conjunto A. O operador in verifica se o valor está dentro do conjunto.
+
+9. Impressão dos Resultados
+python
+Copiar
+print("Complementar de A (estados sem indústria automobilística):", complementar_A)
+print("B é subconjunto de A:", subconjunto_AB)
+print("São Paulo pertence ao conjunto A?", pertinencia_sao_paulo)
+Explicação:
+
+Estamos imprimindo as respostas para as perguntas sobre o complementar de A, se B é subconjunto de A e se São Paulo está em A.
+
+10. Diagrama de Venn
+python
+Copiar
+venn3([A, B, C], set_labels=('Automobilística', 'Têxtil', 'Petroquímica'))
+plt.title("Diagrama de Venn: Indústrias nos Estados")
+plt.show()
+Explicação:
+
+O diagrama de Venn mostra visualmente a relação entre os três conjuntos (A, B e C). Usamos a função venn3 para criar o diagrama com três conjuntos. As interseções são representadas na área comum entre os círculos, mostrando quais estados possuem mais de uma indústria. O título é adicionado com plt.title() e o gráfico é exibido com plt.show().
+
+Como Gravar o Vídeo
+Introdução: Comece explicando que o objetivo é analisar dados usando teoria dos conjuntos e operações como união, interseção e diferença.
+
+Criação da Tabela: Mostre como os dados foram organizados em um DataFrame e explique cada coluna.
+
+Definição dos Conjuntos: Explique como cada conjunto (A, B e C) é formado com base na presença das indústrias.
+
+Operações de Conjuntos: Demonstre as operações de união, interseção e diferença e o que elas significam no contexto dos dados.
+
+Complementar, Subconjunto e Pertinência: Explique essas operações com exemplos práticos, mostrando como elas ajudam a responder perguntas sobre os dados.
+
+Diagrama de Venn: Mostre o diagrama para ilustrar visualmente como os conjuntos se relacionam.
+
+Com essas explicações, seu amigo poderá entender claramente como o código funciona!
